@@ -34,3 +34,11 @@ func TestBCryptEndpointToReturnCreatedStatusAndBCryptPassword(t *testing.T) {
 	assert.Equal(t, http.StatusCreated, w.Code)
 	assert.Nil(t, err)
 }
+
+func TestHashPasswordToReturnPasswordHashedWithBCrypt(t *testing.T) {
+	password := PASSWORD{"Password1"}
+	hash := hashPassword(password)
+	assert.NotNil(t, hash)
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password.HASH))
+	assert.Nil(t, err)
+}
