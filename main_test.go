@@ -7,6 +7,8 @@ import (
 	"strings"
 	"testing"
 
+	"golang.org/x/crypto/bcrypt"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,7 +18,7 @@ func performRequest(r http.Handler, method, path string, body io.Reader) *httpte
 	r.ServeHTTP(w, req)
 	return w
 }
-func TestCreateBCryptEndpoint(t *testing.T) {
+func TestBCryptEndpointToReturnCreatedStatusAndBCryptPassword(t *testing.T) {
 	router := SetupRouter()
 
 	passwordJSON := "{\"password\":\"Password1\"}"
@@ -26,5 +28,9 @@ func TestCreateBCryptEndpoint(t *testing.T) {
 
 	w := performRequest(router, "POST", "/bcrypt", reader)
 
+	response := w.Body.String()
+	err := bcrypt.CompareHashAndPassword([]byte(response), []byte("Password1"))
+
 	assert.Equal(t, http.StatusCreated, w.Code)
+	assert.Nil(t, err)
 }
