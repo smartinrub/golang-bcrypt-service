@@ -1,5 +1,5 @@
 FROM golang:latest 
-WORKDIR /go/src/golang-bcrypt-service
+WORKDIR /go/src/bcrypt-service
 # -d not to install packages; -v verbose
 RUN go get -d -v golang.org/x/crypto/bcrypt
 RUN go get -d -v github.com/gin-gonic/gin
@@ -10,7 +10,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -o main .
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
+ENV ROUNDS=12
 WORKDIR /root/
 # copies the first build into this stage
-COPY --from=0 /go/src/golang-bcrypt-service/main .
+COPY --from=0 /go/src/bcrypt-service/main .
 CMD ["./main"]
