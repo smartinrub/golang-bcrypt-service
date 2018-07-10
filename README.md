@@ -1,10 +1,10 @@
-# golang-bcrypt-service
+# bcrypt-service
 ## Docker
 ```sh
-docker build . -t golang-bcrypt-service
-docker run -p 8080:8080 golang-bcrypt-service
+docker build . -t bcrypt-service
+docker run -p 8089:8089 bcrypt-service
 ```
-## Run tests
+## Tests
 ```sh
 go test
 ```

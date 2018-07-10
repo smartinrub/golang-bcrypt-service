@@ -16,7 +16,7 @@ type PASSWORD struct {
 
 func main() {
 	router := SetupRouter()
-	router.Run(":8080")
+	router.Run(":8089")
 }
 
 // SetupRouter creates endpoint for bcrypt
